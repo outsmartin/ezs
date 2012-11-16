@@ -17,7 +17,7 @@ module EZS
     def schedulable?
       left = @tasks.map(&:load).inject(0){|x,y| x+y}
       right =  global_rms_max(cpu_count)
-      puts "#{left} <= #{right}"
+      #puts "#{left} <= #{right}"
       left <= right
     end
     def max_response
