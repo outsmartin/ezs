@@ -22,7 +22,7 @@ describe GlobalRms do
     s.cpu_count = 2
     s.sort_by_priority.must_equal [t2,t1]
   end
-  it "complex example" do
+  it  "complex example" do
     s = GlobalRms.new
     t = "7,1 10,2 20,9 22,11 25,2".to_global_rms_tasks
     s.tasks = t
@@ -46,14 +46,19 @@ describe GlobalRms do
     t = "7,1 10,2 20,9 22,11 25,2".to_global_rms_tasks
     s.tasks = t
     s.cpu_count = 3
+    s.schedulable?.must_equal false
+  end
+  it "should calculate the tardiness" do
+    s = GlobalRms.new
+    t = "7,1 10,2 20,9 22,11 25,2".to_global_rms_tasks
+    s.tasks = t
+    s.cpu_count = 3
     t1 = t[0]
     t2 = t[1]
     t3 = t[2]
     t4 = t[3]
     t5 = t[4]
-
-    s.schedulable?.must_equal false
+    sorted = s.sort_by_priority
+    s.max_response.must_equal [9,11,1,17,19]
   end
-
-
 end

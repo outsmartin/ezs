@@ -20,6 +20,30 @@ module EZS
       puts "#{left} <= #{right}"
       left <= right
     end
+    def max_response
+      sorted = sort_by_priority
+      sorted.map.with_index do |t,i|
+        if i < cpu_count
+          t.e
+        else
+          tasks_with_higher_prio = sorted[0..i-1]
+          res = t.e
+          res_old = 0
+          begin
+          res_old = res
+          sum_of_previous = tasks_with_higher_prio.map do |task|
+            tardiness_for_task(task,res)
+          end.inject(0){|sum,x| sum + x}
+          res = t.e + 1/cpu_count.to_f * sum_of_previous
+          end while res != res_old
+
+          res.ceil #dont know if this is right Oo maybe ceil is not ok but would make sense here
+        end
+      end
+    end
+    def tardiness_for_task(task,previous)
+      (previous/task.p).ceil * task.e + task.e
+    end
 
   end
   def global_rms_calc(cpu_count)
